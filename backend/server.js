@@ -1,6 +1,6 @@
 /*
-    Boots your Express app, configures essential middleware, verifies database connectivity, 
-    exposes a health check route, and starts listening for incoming requests.
+  Boots the Express app, configures essential middleware, verifies database connectivity, 
+  exposes a health check route, and starts listening for incoming requests.
 */
 
 const express = require('express'); // Needed to create an HTTP server and define API routes
@@ -12,6 +12,10 @@ const pool = require('./db'); // Import the MySQL connection pool from db.js
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+// Allows server to handle requests to the /api/properties route
+const propertiesRoute = require('./routes/properties');
+app.use('/api/properties', propertiesRoute);
 
 // Defines an HTTP GET route in Express as /api/health
 app.get('/api/health', async (req, res) => {

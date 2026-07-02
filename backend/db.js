@@ -1,5 +1,5 @@
 /*
-    Creates a MySQL connection pool module.
+  Creates a MySQL connection pool module.
 */
 
 const mysql = require('mysql2/promise'); // Returns promise; a value we don't have yet but will
