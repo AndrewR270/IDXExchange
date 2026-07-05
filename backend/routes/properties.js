@@ -31,12 +31,12 @@ router.get('/', async (req, res) => {
         Instead, they are passed as an array to the pool.query() method, which safely escapes them.
     */
 
-    let sql = "SELECT * FROM properties WHERE 1=1";
+    let sql = "SELECT * FROM rets_property WHERE 1=1";
     let params = [];
     const limit = Number(req.query.limit) || 20;
     const offset = Number(req.query.offset) || 0;
 
-    let sqlCount = "SELECT COUNT(*) AS total FROM properties WHERE 1=1";
+    let sqlCount = "SELECT COUNT(*) AS total FROM rets_property WHERE 1=1";
     let paramsCount = [];
 
     // Add query filters (if they exist) to the SQL query and the params array
@@ -52,7 +52,9 @@ router.get('/', async (req, res) => {
     }
 
     // Normalize city to lowercase and trim whitespace
+    if (req.query.city !== undefined) {
     req.query.city = req.query.city.toLowerCase().trim();
+    }
     addFilter("LOWER(TRIM(L_City))", "=", "city");
 
     addFilter("L_Zip", "=", "zipcode");
