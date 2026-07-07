@@ -13,9 +13,29 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Allows server to handle requests to the /api/properties route
-const propertiesRoute = require('./routes/properties');
-app.use('/api/properties', propertiesRoute);
+/*
+  Middleware to log incoming requests and their response times.
+  Logs the HTTP method, original URL, response status code, and duration in milliseconds.
+*/
+app.use((req, res, next) => {
+  const start = Date.now();
+  res.on("finish", () => {
+    const duration = Date.now() - start;
+    console.log(`${req.method} ${req.originalUrl} ${res.statusCode} ${duration}ms`);
+  });
+  next();
+});
+
+/*
+  Uses routers from the routes directory, mounted on the Express application instance using app.use().
+  Allows the server to handle requests to these routes and use the appropriate file.
+*/  
+
+const propertyRouter = require('./routes/properties');
+app.use('/api/properties', propertyRouter);
+
+const propertyIDRouter = require('./routes/propertyID');
+app.use('/api/properties', propertyIDRouter);
 
 // Defines an HTTP GET route in Express as /api/health
 app.get('/api/health', async (req, res) => {
@@ -35,8 +55,8 @@ app.get('/api/health', async (req, res) => {
 });
 
 /*
-    Starts the Express server and listens for incoming requests on the specified port.
-    The health check link is printed to the console for easy access.
+  Starts the Express server and listens for incoming requests on the specified port.
+  The health check link is printed to the console for easy access.
 */
 const PORT = 5000;
 app.listen(PORT, () => {
