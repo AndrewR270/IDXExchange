@@ -53,7 +53,7 @@ router.get('/', async (req, res) => {
 
     // Normalize city to lowercase and trim whitespace
     if (req.query.city !== undefined) {
-    req.query.city = req.query.city.toLowerCase().trim();
+        req.query.city = req.query.city.toLowerCase().trim();
     }
     addFilter("LOWER(TRIM(L_City))", "=", "city");
 
