@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import PropertyFilters from "./PropertyFilters";
 import PropertyCard from "./PropertyCard";
+import { fetchAPIClient as fetchAPIClient } from "@/lib/fetchAPIClient";
 
 export default function ListingsClient() {
 
@@ -27,13 +28,19 @@ export default function ListingsClient() {
   async function fetchProperties(filters = {}) {
     setLoading(true);
 
-    // Converts search filters into URL string and fetches
-    const params = new URLSearchParams(filters).toString();
-    const res = await fetch(`/api/properties?${params}`);
-    const data = await res.json();
+    try {
+      // Converts search filters into URL string and fetches
+      const params = new URLSearchParams(filters).toString();
+      const res = await fetch(`/api/properties?${params}`);
+      const data = await fetchAPIClient(filters);
 
-    setResults(data.results);
-    setTotal(data.total);
+      setResults(data.results);
+      setTotal(data.total);
+    } catch (err) {
+      setResults([]);
+      setTotal(0);
+    }
+
     setLoading(false);
   }
 

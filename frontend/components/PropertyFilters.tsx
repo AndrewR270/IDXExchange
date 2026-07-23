@@ -1,7 +1,6 @@
 "use client";
 import { useState } from "react";
 
-
 // Parent passes fetchProperties function as onSearch
 export default function PropertyFilters({ onSearch }: { onSearch: (filters: any) => void }) {
 
@@ -40,7 +39,7 @@ export default function PropertyFilters({ onSearch }: { onSearch: (filters: any)
   }
 
   return (
-    <form onSubmit={handleSubmit} className="column-layout gap-2 p-2 rounded-xl bg-element mb-4">
+    <form data-testid="filters-form" onSubmit={handleSubmit} className="column-layout gap-2 p-2 rounded-xl bg-element mb-4">
       {/* City Field */}
       <div className="animated-input">
         <span className="text-foreground/60 whitespace-nowrap">City:</span>
