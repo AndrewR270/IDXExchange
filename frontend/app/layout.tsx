@@ -6,7 +6,7 @@ const inter = Inter({ subsets: ["latin"], variable: "--font-sans", });
 
 export const metadata: Metadata = {
   title: "IDXExchange",
-  description: "A property searcg application",
+  description: "A property search application",
 };
 
 export default function RootLayout({ children, }: Readonly<{ children: React.ReactNode; }>) {
