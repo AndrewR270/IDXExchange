@@ -3,7 +3,8 @@
 import { useState, useEffect } from "react";
 import PropertyFilters from "./PropertyFilters";
 import PropertyCard from "./PropertyCard";
-import { fetchAPIClient as fetchAPIClient } from "@/lib/fetchAPIClient";
+import { fetchAPIClient as fetchAPIClient } from "../lib/fetchAPIClient";
+import Pagination from "./Pagination";
 
 export default function ListingsClient() {
 
@@ -20,37 +21,56 @@ export default function ListingsClient() {
     LM_Int2_3: number;
   };
 
+  const [activeFilters, setActiveFilters] = useState({});
+
   const [results, setResults] = useState<Property[]>([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 20;
+  const totalPages = Math.ceil(total / itemsPerPage);
+
+  const start = (currentPage - 1) * itemsPerPage + 1;
+  const end = Math.min(currentPage * itemsPerPage, total);
+
+
+  function handleSearch(filters = {}) {
+    setActiveFilters(filters);
+    setCurrentPage(1);
+    fetchProperties(filters, 1);
+  }
+
   // Passed to PropertyFilters, returns an object for filters
-  async function fetchProperties(filters = {}) {
+  async function fetchProperties(filters = {}, page = 1) {
     setLoading(true);
-
     try {
-      // Converts search filters into URL string and fetches
-      const params = new URLSearchParams(filters).toString();
-      const res = await fetch(`/api/properties?${params}`);
-      const data = await fetchAPIClient(filters);
-
+      const offset = (page - 1) * itemsPerPage;
+      const params = new URLSearchParams({
+        ...filters,
+        limit: itemsPerPage.toString(),
+        offset: offset.toString(),
+      });
+      const data = await fetchAPIClient(Object.fromEntries(params));
       setResults(data.results);
       setTotal(data.total);
-    } catch (err) {
+    } catch {
       setResults([]);
       setTotal(0);
     }
-
     setLoading(false);
   }
+
 
   useEffect(() => { fetchProperties(); }, []); // Search immediately upon loading
 
   return (
     <div className="p-6 max-w-7xl mx-auto">
-      <PropertyFilters onSearch={fetchProperties} />
+      <PropertyFilters onSearch={handleSearch} />
 
-      <h2 className="text-xl font-semibold mb-4 text-foreground">Showing {results.length} of {total} properties</h2>
+      <h2 className="text-xl font-semibold mb-4 text-foreground">
+        Showing {start}-{end} of {total} properties
+      </h2>
 
       {/*loading && <p className="text-foreground">Loading…</p>*/}
       {!loading && results.length === 0 && (<p className="text-foreground">
@@ -60,6 +80,15 @@ export default function ListingsClient() {
       <div className="column-layout gap-6">
         {results.map(p => ( <PropertyCard key={p.L_ListingID} property={p}/> ))}
       </div>
+
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={(page) => {
+          setCurrentPage(page);
+          fetchProperties(activeFilters, page);
+        }}
+      />
     </div>
   );
 }

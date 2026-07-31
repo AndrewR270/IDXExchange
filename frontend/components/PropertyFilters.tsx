@@ -84,8 +84,8 @@ export default function PropertyFilters({ onSearch }: { onSearch: (filters: any)
         <option value="4">At least 4 Baths</option>
       </select>
 
-      <button type="submit" className="search-button">Search</button>
-      <button type="button" onClick={handleClear} className="clear-button">Clear</button>
+      <button type="submit" className="primary-button">Search</button>
+      <button type="button" onClick={handleClear} className="secondary-button">Clear</button>
 
     </form>
   );

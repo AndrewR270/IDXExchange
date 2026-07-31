@@ -6,7 +6,7 @@ export default function PropertyCard({ property }: { property: any }) {
   } catch { photoUrl = ""; }
 
   return (
-    <div className="property-card">
+    <div className="property-card" data-testid="property-card">
 
       {photoUrl ? (<img src={photoUrl} alt="Property" className="w-full h-48 object-cover" />) 
       : (<div className="no-photo">No photo available</div>) }
