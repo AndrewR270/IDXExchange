@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import PropertyFilters from "./PropertyFilters";
 import PropertyCard from "./PropertyCard";
-import { fetchAPIClient as fetchAPIClient } from "../lib/fetchAPIClient";
+import { fetchPropertyByFilter } from "../lib/fetchAPIClient";
 import Pagination from "./Pagination";
 
 export default function ListingsClient() {
@@ -51,7 +51,7 @@ export default function ListingsClient() {
         limit: itemsPerPage.toString(),
         offset: offset.toString(),
       });
-      const data = await fetchAPIClient(Object.fromEntries(params));
+      const data = await fetchPropertyByFilter(Object.fromEntries(params));
       setResults(data.results);
       setTotal(data.total);
     } catch {
@@ -65,8 +65,17 @@ export default function ListingsClient() {
   useEffect(() => { fetchProperties(); }, []); // Search immediately upon loading
 
   return (
-    <div className="p-6 max-w-7xl mx-auto">
-      <PropertyFilters onSearch={handleSearch} />
+    <div className="p-6 max-w-380 mx-auto">
+      <div className="grid grid-cols-8 gap-6">
+        <div className="col-span-3">
+          <img
+            src="/images/Logo.png"
+            className="w-full"
+            alt="IDXExchange"
+          />
+        </div>
+        <div className="col-span-5"><PropertyFilters onSearch={handleSearch} /></div>
+      </div>
 
       <h2 className="text-xl font-semibold mb-4 text-foreground">
         Showing {start}-{end} of {total} properties
