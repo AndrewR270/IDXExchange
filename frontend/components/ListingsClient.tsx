@@ -65,39 +65,37 @@ export default function ListingsClient() {
   useEffect(() => { fetchProperties(); }, []); // Search immediately upon loading
 
   return (
-    <div className="p-6 max-w-380 mx-auto">
-      <div className="grid grid-cols-8 gap-6">
-        <div className="col-span-3">
-          <img
-            src="/images/Logo.png"
-            className="w-full"
-            alt="IDXExchange"
-          />
+    <div className="mx-auto">
+      <div className="w-full bg-element sticky top-0 z-50">
+        <div className="w-full px-6 py-4">
+          <PropertyFilters onSearch={handleSearch} />
         </div>
-        <div className="col-span-5"><PropertyFilters onSearch={handleSearch} /></div>
       </div>
 
-      <h2 className="text-xl font-semibold mb-4 text-foreground">
-        Showing {start}-{end} of {total} properties
-      </h2>
 
-      {/*loading && <p className="text-foreground">Loading…</p>*/}
-      {!loading && results.length === 0 && (<p className="text-foreground">
-        No properties could be found. Try adjusting your search filters.
-      </p>)}
+      <div className="p-6">
+        <h2 className="text-xl font-semibold mb-4 text-foreground">
+          Showing {start}-{end} of {total} properties
+        </h2>
 
-      <div className="column-layout gap-6">
-        {results.map(p => ( <PropertyCard key={p.L_ListingID} property={p}/> ))}
+        {/*loading && <p className="text-foreground">Loading…</p>*/}
+        {!loading && results.length === 0 && (<p className="text-foreground">
+          No properties could be found. Try adjusting your search filters.
+        </p>)}
+
+        <div className="column-layout gap-6">
+          {results.map(p => ( <PropertyCard key={p.L_ListingID} property={p}/> ))}
+        </div>
+
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={(page) => {
+            setCurrentPage(page);
+            fetchProperties(activeFilters, page);
+          }}
+        />
       </div>
-
-      <Pagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={(page) => {
-          setCurrentPage(page);
-          fetchProperties(activeFilters, page);
-        }}
-      />
     </div>
   );
 }

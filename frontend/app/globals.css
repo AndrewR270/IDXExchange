@@ -1,9 +1,13 @@
 @import "tailwindcss";
 
 :root {
-  --background: #eeeeee;
+  --background: #dddddd;
   --foreground: #222222;
-  --element: #dddddd;
+  --element: #eeeeee;
+}
+
+.idx-logo {
+  content: url('/images/Logo.png');
 }
 
 @media (prefers-color-scheme: dark) {
@@ -11,6 +15,9 @@
     --background: #222222;
     --foreground: #eeeeee;
     --element: #111111;
+  }
+  .idx-logo {
+    content: url('/images/LogoLight.png');
   }
 }
 
@@ -62,4 +69,29 @@ input[type="number"] { -moz-appearance: textfield; }
   .no-photo {
     @apply w-full h-48 bg-element flex items-center justify-center text-foreground/60;
   }
+}
+
+/* Minimal scrollbar — uses your foreground color */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--foreground);
+  opacity: 0.1;         /* same effect as rgba(..., 0.25) */
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  opacity: 0.1;
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--foreground) transparent;
 }

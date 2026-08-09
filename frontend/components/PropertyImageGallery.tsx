@@ -46,7 +46,7 @@ export default function PropertyImageGallery({ photos }: PropertyImageGalleryPro
     <div>
       <img
         src={parsed[index]}
-        className="aspect-[16/9] w-full object-cover rounded cursor-pointer"
+        className="aspect-[16/9] w-full object-cover rounded-2xl cursor-pointer"
         onClick={() => setLightbox(true)}
         alt="Property photo"
       />
@@ -56,7 +56,7 @@ export default function PropertyImageGallery({ photos }: PropertyImageGalleryPro
           <img
             key={i}
             src={p}
-            className={`h-20 w-32 object-cover rounded cursor-pointer ${
+            className={`h-20 w-32 object-cover rounded-2xl cursor-pointer ${
               i === index ? "ring-2 ring-blue-500" : ""
             }`}
             onClick={() => setIndex(i)}
