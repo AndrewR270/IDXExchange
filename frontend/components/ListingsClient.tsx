@@ -5,6 +5,8 @@ import PropertyFilters from "./PropertyFilters";
 import PropertyCard from "./PropertyCard";
 import { fetchPropertyByFilter } from "../lib/fetchAPIClient";
 import Pagination from "./Pagination";
+import SortControls from "./SortControls";
+import { SortRule } from "./SortControls";
 
 export default function ListingsClient() {
 
@@ -34,15 +36,17 @@ export default function ListingsClient() {
   const start = (currentPage - 1) * itemsPerPage + 1;
   const end = Math.min(currentPage * itemsPerPage, total);
 
+  const [sortFields, setSortFields] = useState<SortRule[]>([]);
 
   function handleSearch(filters = {}) {
     setActiveFilters(filters);
     setCurrentPage(1);
     fetchProperties(filters, 1);
+    setSortFields([]);
   }
 
   // Passed to PropertyFilters, returns an object for filters
-  async function fetchProperties(filters = {}, page = 1) {
+  async function fetchProperties(filters = {}, page = 1, sorts: SortRule[] = []) {
     setLoading(true);
     try {
       const offset = (page - 1) * itemsPerPage;
@@ -50,6 +54,10 @@ export default function ListingsClient() {
         ...filters,
         limit: itemsPerPage.toString(),
         offset: offset.toString(),
+      });
+      sorts.forEach((rule, idx) => {
+        params.append(`sortBy[${idx}]`, rule.field);
+        params.append(`sortOrder[${idx}]`, rule.order);
       });
       const data = await fetchPropertyByFilter(Object.fromEntries(params));
       setResults(data.results);
@@ -61,8 +69,36 @@ export default function ListingsClient() {
     setLoading(false);
   }
 
+  function handleAddSort(field: string) {
+    if (sortFields.some(s => s.field === field)) return;
+
+    const updated = [...sortFields, { field, order: "asc" as const }];
+    setSortFields(updated);
+
+    fetchProperties(activeFilters, currentPage, updated);
+  }
+
+  function handleRemoveSort(index: number) {
+    const updated = sortFields.filter((_, i) => i !== index);
+    setSortFields(updated);
+
+    fetchProperties(activeFilters, currentPage, updated);
+  }
+
+  function handleToggleSort(index: number) {
+    setSortFields(prev => {
+      const updated = [...prev];
+      updated[index] = {
+        ...updated[index],
+        order: updated[index].order === "asc" ? "desc" : "asc"
+      };
+      fetchProperties(activeFilters, currentPage, updated);
+      return updated;
+    });
+  }
 
   useEffect(() => { fetchProperties(); }, []); // Search immediately upon loading
+
 
   return (
     <div className="mx-auto">
@@ -74,9 +110,19 @@ export default function ListingsClient() {
 
 
       <div className="p-6">
-        <h2 className="text-xl font-semibold mb-4 text-foreground">
-          Showing {start}-{end} of {total} properties
-        </h2>
+        <div className="flex items-center mb-4">
+          <h2 className="text-xl font-semibold text-foreground">
+            Showing {start}-{end} of {total} properties
+          </h2>
+
+          <SortControls
+            sortFields={sortFields}
+            onAddSort={handleAddSort}
+            onRemoveSort={handleRemoveSort}
+            onToggleSort={handleToggleSort}
+          />
+        </div>
+
 
         {/*loading && <p className="text-foreground">Loading…</p>*/}
         {!loading && results.length === 0 && (<p className="text-foreground">

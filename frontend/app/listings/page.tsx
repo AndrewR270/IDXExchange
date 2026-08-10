@@ -1,5 +1,10 @@
 import ListingsClient from "@/components/ListingsClient";
+import ErrorBoundary from "@/components/ErrorBoundary";
 
 export default function ListingsPage() {
-  return <ListingsClient/>;
+  return (
+    <ErrorBoundary>
+      <ListingsClient/>
+    </ErrorBoundary>
+  );
 }
