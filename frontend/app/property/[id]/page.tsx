@@ -1,8 +1,8 @@
-import { fetchPropertyByID } from "@/lib/fetchAPIClient";
-import { fetchOpenHouses } from "@/lib/fetchAPIClient";
-import PropertyImageGallery from "@/components/PropertyImageGallery";
-import PropertyMap from "@/components/PropertyMap";
-import OpenHouses from "@/components/OpenHouses";
+import { fetchPropertyByID } from "@/src/api/fetchAPIClient";
+import { fetchOpenHouses } from "@/src/api/fetchAPIClient";
+import PropertyImageGallery from "@/src/components/PropertyImageGallery";
+import PropertyMap from "@/src/components/PropertyMap";
+import OpenHouses from "@/src/components/OpenHouses";
 
 import Link from "next/link";
 

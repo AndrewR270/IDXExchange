@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import PropertyFilters from "./PropertyFilters";
 import PropertyCard from "./PropertyCard";
-import { fetchPropertyByFilter } from "../lib/fetchAPIClient";
+import { fetchPropertyByFilter } from "../api/fetchAPIClient";
 import Pagination from "./Pagination";
 import SortControls from "./SortControls";
 import { SortRule } from "./SortControls";

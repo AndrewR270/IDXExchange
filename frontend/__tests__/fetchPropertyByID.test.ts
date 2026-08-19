@@ -1,7 +1,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { fetchPropertyByID } from "../lib/fetchAPIClient";
+import { fetchPropertyByID } from "../src/api/fetchAPIClient";
 
 describe("fetchPropertyByID", () => {
   beforeEach(() => {

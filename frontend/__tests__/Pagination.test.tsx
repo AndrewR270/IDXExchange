@@ -2,7 +2,7 @@
 // @ts-nocheck
 
 import { render, screen, fireEvent } from "@testing-library/react";
-import Pagination from "../components/Pagination";
+import Pagination from "../src/components/Pagination";
 
 describe("Pagination Component", () => {
   test("hidden when totalPages <= 1", () => {
