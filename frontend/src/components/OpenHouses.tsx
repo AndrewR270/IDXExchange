@@ -30,16 +30,10 @@ export default function OpenHouses({ openHouses }: OpenHousesProps) {
 
         return (
           <li key={i} className="border p-4 rounded">
-            <p>
-              <strong>Date:</strong> {oh.OH_Date}
-            </p>
-            <p>
-              <strong>Time:</strong> {oh.OH_StartTime} – {oh.OH_EndTime}
-            </p>
+            <p><strong>Date:</strong> {oh.OH_Date}</p>
+            <p><strong>Time:</strong> {oh.OH_StartTime} – {oh.OH_EndTime}</p>
             {remarks && (
-              <p>
-                <strong>Remarks:</strong> {remarks}
-              </p>
+              <p><strong>Remarks:</strong> {remarks}</p>
             )}
           </li>
         );

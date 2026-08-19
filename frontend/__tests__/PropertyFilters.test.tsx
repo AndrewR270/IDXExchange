@@ -2,7 +2,7 @@
 // @ts-nocheck
 
 import { render, screen, fireEvent } from "@testing-library/react";
-import PropertyFilters from "../components/PropertyFilters";
+import PropertyFilters from "../src/components/PropertyFilters";
 
 describe("PropertyFilters", () => {
   test("submitting sends cleaned filters", () => {
