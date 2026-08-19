@@ -10,7 +10,6 @@ export async function fetchPropertyByFilter(filters: Record<string, any> = {}) {
   return await res.json();
 }
 
-
 // For Property Page
 export async function fetchPropertyByID(id: string) {
   const res = await fetch(`${getApiBaseUrl()}/api/getProperty?id=${encodeURIComponent(id)}`);
