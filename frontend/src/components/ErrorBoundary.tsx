@@ -15,6 +15,7 @@ export default class ErrorBoundary extends React.Component<
   React.PropsWithChildren<ErrorBoundaryProps>,
   ErrorBoundaryState
 > {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   constructor(props: any) {
     super(props);
     this.state = { hasError: false };
@@ -24,7 +25,12 @@ export default class ErrorBoundary extends React.Component<
     return { hasError: true };
   }
 
-  componentDidCatch(error: any, info: any) {
+  componentDidCatch(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    error: any,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    info: any
+  ) {
     console.error("React Error Boundary caught:", error, info);
   }
 

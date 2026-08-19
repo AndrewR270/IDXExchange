@@ -1,9 +1,21 @@
 "use client";
 import { useState } from "react";
 
-export default function PropertyFilters({ onSearch }: { onSearch: (filters: any) => void }) {
+type PropertyFilters = {
+  city?: string;
+  zipcode?: string;
+  minPrice?: string;
+  maxPrice?: string;
+  beds?: string;
+  baths?: string;
+};
 
-  const [filters, setFilters] = useState({
+export default function PropertyFilters({
+  onSearch,
+}: {
+  onSearch: (filters: PropertyFilters) => void;
+}) {
+  const [filters, setFilters] = useState<PropertyFilters>({
     city: "",
     zipcode: "",
     minPrice: "",
@@ -12,15 +24,15 @@ export default function PropertyFilters({ onSearch }: { onSearch: (filters: any)
     baths: "",
   });
 
-  function updateField(field: string, value: string) {
-    setFilters(prev => ({ ...prev, [field]: value }));
+  function updateField(field: keyof PropertyFilters, value: string) {
+    setFilters((prev) => ({ ...prev, [field]: value }));
   }
 
-  function handleSubmit(e: React.SubmitEvent<HTMLFormElement>) {
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const cleaned = Object.fromEntries(
       Object.entries(filters).filter(([_, v]) => v !== "")
-    );
+    ) as PropertyFilters;
     onSearch(cleaned);
   }
 
@@ -37,26 +49,19 @@ export default function PropertyFilters({ onSearch }: { onSearch: (filters: any)
   }
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="flex items-center gap-6 w-full"
-    >
+    <form onSubmit={handleSubmit} className="flex items-center gap-6 w-full">
       {/* Logo */}
-      <img
-        className="idx-logo h-10"
-        alt="IDXExchange"
-      />
+      <img className="idx-logo h-10" alt="IDXExchange" />
 
       {/* Filters */}
       <div className="grid grid-cols-18 gap-4 flex-1">
-
         {/* City */}
         <div className="col-span-4 animated-input flex items-center gap-1 w-full">
           <span className="text-foreground/60 whitespace-nowrap">City:</span>
           <input
             type="text"
             value={filters.city}
-            onChange={e => updateField("city", e.target.value)}
+            onChange={(e) => updateField("city", e.target.value)}
             className="input w-full"
           />
         </div>
@@ -67,7 +72,7 @@ export default function PropertyFilters({ onSearch }: { onSearch: (filters: any)
           <input
             type="text"
             value={filters.zipcode}
-            onChange={e => updateField("zipcode", e.target.value)}
+            onChange={(e) => updateField("zipcode", e.target.value)}
             className="input w-full"
           />
         </div>
@@ -80,7 +85,7 @@ export default function PropertyFilters({ onSearch }: { onSearch: (filters: any)
             type="number"
             placeholder="Any"
             value={filters.minPrice}
-            onChange={e => updateField("minPrice", e.target.value)}
+            onChange={(e) => updateField("minPrice", e.target.value)}
             className="input w-3/8"
           />
 
@@ -90,7 +95,7 @@ export default function PropertyFilters({ onSearch }: { onSearch: (filters: any)
             type="number"
             placeholder="Any"
             value={filters.maxPrice}
-            onChange={e => updateField("maxPrice", e.target.value)}
+            onChange={(e) => updateField("maxPrice", e.target.value)}
             className="input w-1/2"
           />
         </div>
@@ -99,10 +104,14 @@ export default function PropertyFilters({ onSearch }: { onSearch: (filters: any)
         <div className="col-span-2 flex items-center gap-2 w-full">
           <select
             value={filters.beds}
-            onChange={e => updateField("beds", e.target.value)}
-            className={`animated-dropdown w-full ${filters.beds === "" ? "text-foreground/60" : "text-foreground"}`}
+            onChange={(e) => updateField("beds", e.target.value)}
+            className={`animated-dropdown w-full ${
+              filters.beds === "" ? "text-foreground/60" : "text-foreground"
+            }`}
           >
-            <option value="" disabled hidden>Beds</option>
+            <option value="" disabled hidden>
+              Beds
+            </option>
             <option value="1">1+ Beds</option>
             <option value="2">2+ Beds</option>
             <option value="3">3+ Beds</option>
@@ -111,13 +120,17 @@ export default function PropertyFilters({ onSearch }: { onSearch: (filters: any)
         </div>
 
         {/* Baths */}
-        <div className=" col-span-2 flex items-center gap-2 w-full">
+        <div className="col-span-2 flex items-center gap-2 w-full">
           <select
             value={filters.baths}
-            onChange={e => updateField("baths", e.target.value)}
-            className={`animated-dropdown w-full ${filters.baths === "" ? "text-foreground/60" : "text-foreground"}`}
+            onChange={(e) => updateField("baths", e.target.value)}
+            className={`animated-dropdown w-full ${
+              filters.baths === "" ? "text-foreground/60" : "text-foreground"
+            }`}
           >
-            <option value="" disabled hidden>Baths</option>
+            <option value="" disabled hidden>
+              Baths
+            </option>
             <option value="1">1+ Baths</option>
             <option value="2">2+ Baths</option>
             <option value="3">3+ Baths</option>
@@ -138,7 +151,6 @@ export default function PropertyFilters({ onSearch }: { onSearch: (filters: any)
             Clear
           </button>
         </div>
-
       </div>
     </form>
   );

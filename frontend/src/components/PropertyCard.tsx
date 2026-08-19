@@ -2,7 +2,19 @@ import Link from "next/link";
 import PropTypes from "prop-types";
 import PropertyImageCarousel from "@/src/components/PropertyImageCarousel";
 
-export default function PropertyCard({ property }: { property: any }) {
+type Property = {
+  L_ListingID: string;
+  L_Photos: string;
+  L_SystemPrice: number;
+  L_Address: string;
+  L_City: string;
+  L_State: string;
+  L_Keyword2: number;
+  LM_Dec_3: number;
+  LM_Int2_3: number;
+};
+
+export default function PropertyCard({ property }: { property: Property }) {
 
   let photos;
   try {

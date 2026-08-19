@@ -4,7 +4,7 @@ function getApiBaseUrl() {
 }
 
 // For Listings Page
-export async function fetchPropertyByFilter(filters: Record<string, any> = {}) {
+export async function fetchPropertyByFilter(filters: Record<string, string> = {}) {
   const params = new URLSearchParams(filters).toString();
   const res = await fetch(`${getApiBaseUrl()}/api/listProperties?${params}`);
   return await res.json();
