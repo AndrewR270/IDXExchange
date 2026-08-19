@@ -3,6 +3,7 @@ function getApiBaseUrl() {
   return process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 }
 
+// For Listings Page
 export async function fetchPropertyByFilter(filters: Record<string, any> = {}) {
   const params = new URLSearchParams(filters).toString();
   const res = await fetch(`${getApiBaseUrl()}/api/listProperties?${params}`);
