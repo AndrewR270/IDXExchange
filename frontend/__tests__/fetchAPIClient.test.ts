@@ -1,7 +1,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { fetchAPIClient } from "../lib/fetchAPIClient";
+import { fetchAPIClient } from "../src/api/fetchAPIClient";
 
 describe("fetchProperties API client", () => {
   beforeEach(() => {

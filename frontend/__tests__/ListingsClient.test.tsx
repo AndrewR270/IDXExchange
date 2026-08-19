@@ -3,7 +3,7 @@
 
 import { act } from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
-import ListingsClient from "../components/ListingsClient";
+import ListingsClient from "../src/components/ListingsClient";
 
 beforeAll(() => {
   window.scrollTo = jest.fn();

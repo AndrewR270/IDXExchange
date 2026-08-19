@@ -14,9 +14,7 @@ export default function PropertyImageGallery({ photos }: PropertyImageGalleryPro
     if (Array.isArray(result)) {
       parsed = result as string[];
     }
-  } catch {
-    parsed = [];
-  }
+  } catch { parsed = []; }
 
   const [index, setIndex] = useState<number>(0);
   const [lightbox, setLightbox] = useState<boolean>(false);
@@ -26,11 +24,9 @@ export default function PropertyImageGallery({ photos }: PropertyImageGalleryPro
       if (!lightbox) return;
 
       if (e.key === "Escape") setLightbox(false);
-
       if (e.key === "ArrowLeft") {
         setIndex((i) => (i === 0 ? parsed.length - 1 : i - 1));
       }
-
       if (e.key === "ArrowRight") {
         setIndex((i) => (i === parsed.length - 1 ? 0 : i + 1));
       }

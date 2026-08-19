@@ -3,12 +3,14 @@ function getApiBaseUrl() {
   return process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 }
 
-export async function fetchPropertyByFilter(filters: Record<string, any> = {}) {
+// For Listings Page
+export async function fetchPropertyByFilter(filters: Record<string, string> = {}) {
   const params = new URLSearchParams(filters).toString();
   const res = await fetch(`${getApiBaseUrl()}/api/listProperties?${params}`);
   return await res.json();
 }
 
+// For Property Page
 export async function fetchPropertyByID(id: string) {
   const res = await fetch(`${getApiBaseUrl()}/api/getProperty?id=${encodeURIComponent(id)}`);
   return await res.json();

@@ -1,5 +1,5 @@
-import ListingsClient from "@/components/ListingsClient";
-import ErrorBoundary from "@/components/ErrorBoundary";
+import ListingsClient from "@/src/components/ListingsClient";
+import ErrorBoundary from "@/src/components/ErrorBoundary";
 
 export default function ListingsPage() {
   return (
