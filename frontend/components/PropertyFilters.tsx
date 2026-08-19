@@ -16,7 +16,7 @@ export default function PropertyFilters({ onSearch }: { onSearch: (filters: any)
     setFilters(prev => ({ ...prev, [field]: value }));
   }
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  function handleSubmit(e: React.SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
     const cleaned = Object.fromEntries(
       Object.entries(filters).filter(([_, v]) => v !== "")
@@ -46,7 +46,6 @@ export default function PropertyFilters({ onSearch }: { onSearch: (filters: any)
         className="idx-logo h-10"
         alt="IDXExchange"
       />
-
 
       {/* Filters */}
       <div className="grid grid-cols-18 gap-4 flex-1">

@@ -40,20 +40,16 @@ export default function PropertyImageCarousel({ photos }: PropertyImageCarouselP
         className="w-full h-48 object-cover rounded"
         alt="Property photo"
       />
-
+      
       <button
         onClick={prev}
         className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/70 px-2 py-1 rounded"
-      >
-        ◀
-      </button>
+      >◀</button>
 
       <button
         onClick={next}
         className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/70 px-2 py-1 rounded"
-      >
-        ▶
-      </button>
+      >▶</button>
 
       <div className="absolute bottom-2 right-2 bg-black/50 text-white px-2 py-1 rounded">
         {index + 1} / {parsed.length}
