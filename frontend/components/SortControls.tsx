@@ -40,10 +40,7 @@ export default function SortControls({
 
       <select
         value={selected}
-        onChange={(e) => {
-          onAddSort(e.target.value);
-          setSelected("");
-        }}
+        onChange={(e) => { onAddSort(e.target.value); setSelected(""); }}
         className="animated-dropdown bg-element rounded-full"
       >
         <option value="" disabled hidden>Sort By</option>
@@ -54,25 +51,18 @@ export default function SortControls({
 
       <div className="flex items-center gap-2">
         {sortFields.map((s, idx) => (
-          <div
-            key={idx}
-            className="px-3 py-1.5 bg-element rounded-full flex items-center gap-2"
-          >
+          <div key={idx} className="px-3 py-1.5 bg-element rounded-full flex items-center gap-2">
             <span>{labelMap[s.field]}</span>
 
             <button
               onClick={() => onToggleSort(idx)}
               className="text-sm text-foreground/60 hover:text-foreground"
-            >
-              {s.order === "asc" ? "↑" : "↓"}
-            </button>
+            > {s.order === "asc" ? "↑" : "↓"} </button>
 
             <button
               onClick={() => onRemoveSort(idx)}
               className="text-sm text-foreground/60 hover:text-foreground"
-            >
-              ✕
-            </button>
+            >✕</button>
           </div>
         ))}
       </div>
