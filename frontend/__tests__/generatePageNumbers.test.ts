@@ -1,7 +1,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { generatePageNumbers } from "../utils/generatePageNumbers";
+import { generatePageNumbers } from "../src/utils/generatePageNumbers";
 
 describe("generatePageNumbers", () => {
   test("no ellipsis when total <= 7", () => {
