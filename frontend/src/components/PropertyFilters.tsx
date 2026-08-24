@@ -54,7 +54,12 @@ export default function PropertyFilters({
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex items-center gap-6 w-full">
+    <form
+      data-testid="filters-form"
+      onSubmit={handleSubmit}
+      className="flex items-center gap-6 w-full"
+    >
+
       {/* Logo */}
       <img className="idx-logo h-10" alt="IDXExchange" />
 

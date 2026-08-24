@@ -1,6 +1,6 @@
 import Link from "next/link";
 import PropTypes from "prop-types";
-import PropertyImageCarousel from "@/src/components/PropertyImageCarousel";
+import PropertyImageCarousel from "../components/PropertyImageCarousel";
 
 type Property = {
   L_ListingID: string;

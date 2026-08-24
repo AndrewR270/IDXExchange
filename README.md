@@ -3,7 +3,6 @@ A property search application built for the 2026 Summer SDE Intern program at ID
 
 ![IDXExchange Screenshot](./Screenshot.png)
 
-
 ## Tech Stack
 
 Data Storage: Docker 4.77.0, MySQL 8.4.10
