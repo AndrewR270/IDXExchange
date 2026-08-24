@@ -11,6 +11,8 @@ type ErrorBoundaryProps = {
   fallback?: React.ReactNode;
 };
 
+// Error boundaries must be class components in React. They catch render-time
+// errors from descendants and keep one broken widget from taking down the page.
 export default class ErrorBoundary extends React.Component<
   React.PropsWithChildren<ErrorBoundaryProps>,
   ErrorBoundaryState
@@ -22,6 +24,8 @@ export default class ErrorBoundary extends React.Component<
   }
 
   static getDerivedStateFromError() {
+    // React calls this before rendering again, so the fallback is shown without
+    // requiring the parent to know that a descendant failed.
     return { hasError: true };
   }
 
@@ -35,11 +39,15 @@ export default class ErrorBoundary extends React.Component<
   }
 
   resetBoundary = () => {
+    // Resetting only clears the local error flag; the child is then rendered
+    // again, which is useful after a transient error or changed input.
     this.setState({ hasError: false });
   };
 
   render() {
     if (this.state.hasError) {
+      // A caller can provide a domain-specific fallback; otherwise use the
+      // small generic recovery UI below.
       if (this.props.fallback) return this.props.fallback;
 
       return (

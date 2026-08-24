@@ -6,6 +6,8 @@ interface PaginationProps {
   onPageChange: (page: number) => void;
 }
 
+// The parent owns the actual page and data fetch. This component only renders
+// the page window produced by generatePageNumbers and reports user choices.
 export default function Pagination({
   currentPage,
   totalPages,
@@ -14,6 +16,8 @@ export default function Pagination({
   if (totalPages <= 1) return null;
 
   function goTo(page: number) {
+    // Keep the new result visible from the top, since changing pages replaces
+    // the listing contents farther down the document.
     window.scrollTo(0, 0);
     onPageChange(page);
   }

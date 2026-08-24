@@ -6,6 +6,8 @@ interface PropertyImageGalleryProps {
   photos: string | null | undefined; // L_Photos is a JSON string
 }
 
+// Detail pages use the same JSON photo format as cards, but add thumbnails and
+// a keyboard-accessible full-screen view.
 export default function PropertyImageGallery({ photos }: PropertyImageGalleryProps) {
   let parsed: string[] = [];
 
@@ -20,6 +22,8 @@ export default function PropertyImageGallery({ photos }: PropertyImageGalleryPro
   const [lightbox, setLightbox] = useState<boolean>(false);
 
   useEffect(() => {
+    // Listen only while the lightbox is open. The dependency on parsed.length
+    // keeps the wraparound calculation aligned with the current photo set.
     function handleKey(e: KeyboardEvent) {
       if (!lightbox) return;
 
@@ -63,6 +67,8 @@ export default function PropertyImageGallery({ photos }: PropertyImageGalleryPro
 
       {lightbox && (
         <div
+          // Clicking the backdrop closes the lightbox; the image itself does
+          // not need a separate handler because it is not the backdrop target.
           className="fixed inset-0 bg-black/80 flex items-center justify-center"
           onClick={() => setLightbox(false)}
         >

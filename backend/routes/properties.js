@@ -8,6 +8,8 @@ const pool = require('../db');
 
 router.get('/', async (req, res) => {
   try {
+    // Query-string values arrive as strings (or arrays), so validate the
+    // expected types before they are normalized or passed to MySQL.
     const stringKeys = ["city", "zipcode"];
     const numericKeys = ["minPrice", "maxPrice", "beds", "baths"];
 
@@ -31,12 +33,16 @@ router.get('/', async (req, res) => {
     let sqlCount = "SELECT COUNT(*) AS total FROM rets_property WHERE 1=1";
     let paramsCount = [];
 
+    // Pagination is expressed as SQL OFFSET/LIMIT. Number() also gives the
+    // API stable numeric values in its response, with 20/0 as defaults.
     const limit = Number(req.query.limit) || 20;
     const offset = Number(req.query.offset) || 0;
 
     function addFilter(column, operator, key) {
       const field = req.query[key];
       if (field !== undefined) {
+        // Column names are internal constants, while values use placeholders;
+        // this keeps user input out of the SQL text and prevents injection.
         sql += ` AND ${column} ${operator} ?`;
         sqlCount += ` AND ${column} ${operator} ?`;
         params.push(field);
@@ -45,6 +51,8 @@ router.get('/', async (req, res) => {
     }
 
     if (req.query.city !== undefined) {
+      // Match cities case-insensitively and ignore accidental surrounding
+      // whitespace, consistent with the SQL expression used below.
       req.query.city = req.query.city.toLowerCase().trim();
     }
 
@@ -67,6 +75,8 @@ router.get('/', async (req, res) => {
     };
 
     function parseSortArray(prefix) {
+      // Express represents sortBy[0], sortBy[1], etc. as separate keys. Sort
+      // numerically by the bracket index so multi-column priority is retained.
       const entries = Object.entries(req.query)
       .filter(([key]) => key.startsWith(prefix + "["))
       .sort(([a], [b]) => {
@@ -94,6 +104,8 @@ router.get('/', async (req, res) => {
           return res.status(400).json({ error: `Invalid sort field: ${field}` });
         }
 
+        // Only whitelisted column names and fixed ASC/DESC values are allowed
+        // into ORDER BY because SQL parameters cannot represent identifiers.
         parts.push(`${field} ${order}`);
       }
 
@@ -106,6 +118,7 @@ router.get('/', async (req, res) => {
     params.push(limit, offset);
 
     const [rows] = await pool.query(sql, params);
+    // Run the count without LIMIT/OFFSET so clients can calculate total pages.
     const [countRows] = await pool.query(sqlCount, paramsCount);
     const total = countRows[0].total;
 

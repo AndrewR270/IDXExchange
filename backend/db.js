@@ -10,7 +10,11 @@ require('dotenv').config(); // Loads .env from Node directory (backend)
   Instead of verifying each new connection, a set is used so that the SQL database can be
   easily accessed.
 */
+// A pool reuses a bounded number of connections across requests. Route
+// handlers can await pool.query() without opening and closing a connection for
+// every API call.
 const pool = mysql.createPool({
+  // These values come from backend/.env; keep credentials out of source control.
   host: process.env.DB_HOST,
   port: process.env.DB_PORT,
   user: process.env.DB_USER,

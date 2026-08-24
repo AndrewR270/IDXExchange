@@ -6,6 +6,8 @@ interface PropertyImageCarouselProps {
   photos: string | null | undefined; // L_Photos is a JSON string
 }
 
+// The listing API preserves the database representation, so parsing happens
+// at the component boundary and the carousel works with a normal string array.
 export default function PropertyImageCarousel({ photos }: PropertyImageCarouselProps) {
   // parsed photos will always be string[]
   let parsed: string[] = [];
@@ -24,6 +26,7 @@ export default function PropertyImageCarousel({ photos }: PropertyImageCarouselP
   if (parsed.length === 0) return null;
 
   function prev(e: React.MouseEvent<HTMLButtonElement>) {
+    // The card is clickable; stop the control event from bubbling into its link.
     e.stopPropagation();
     setIndex((i) => (i === 0 ? parsed.length - 1 : i - 1));
   }
