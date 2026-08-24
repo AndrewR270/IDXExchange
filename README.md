@@ -1,7 +1,7 @@
 # IDXExchange
 A property search application built for the 2026 Summer SDE Intern program at IDXExchange.
 
-![IDXExchange Screenshot](./screenshot.png)
+![IDXExchange Screenshot](./Screenshot.png)
 
 
 ## Tech Stack
