@@ -12,6 +12,8 @@ interface SortControlsProps {
   onToggleSort: (index: number) => void;
 }
 
+// Sort rules are kept by the listings parent because they affect the API
+// request. This component edits the ordered list and displays its state.
 export default function SortControls({
   sortFields,
   onAddSort,
@@ -40,6 +42,8 @@ export default function SortControls({
 
       <select
         value={selected}
+        // Clearing selected after each add lets the same field be chosen again
+        // only after the parent removes it or the user selects another option.
         onChange={(e) => { onAddSort(e.target.value); setSelected(""); }}
         className="animated-dropdown bg-element rounded-full"
       >

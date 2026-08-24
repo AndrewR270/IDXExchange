@@ -14,9 +14,13 @@ type Property = {
   LM_Int2_3: number;
 };
 
+// A card is deliberately a link around the textual details, while the photo
+// carousel handles its own controls without navigating to the property.
 export default function PropertyCard({ property }: { property: Property }) {
 
   let photos;
+  // L_Photos comes from MySQL as a JSON-encoded string rather than string[].
+  // Invalid or empty data uses the explicit no-photo state below.
   try {
     const res = JSON.parse(property.L_Photos);
     if (Array.isArray(res) && res.length > 0) {

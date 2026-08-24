@@ -3,12 +3,16 @@ interface PropertyMapProps {
   lng: number | string | null | undefined;
 }
 
+// The map is optional because listings may not have usable coordinates. The
+// embed key must be exposed to the browser by the app's environment setup.
 export default function PropertyMap({ lat, lng }: PropertyMapProps) {
   if (!lat || !lng) return null;
 
   const key = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
   const src = `https://www.google.com/maps/embed/v1/place?key=${key}&q=${lat},${lng}&zoom=15`;
 
+  // The iframe shows the location in-place; the separate link opens Google's
+  // full map experience for directions and other map actions.
   return (
     <div className="mt-4">
       <iframe

@@ -10,6 +10,8 @@ type PropertyFilters = {
   baths?: string;
 };
 
+// This is a controlled form: inputs stay local while the parent is notified
+// only after Search or Clear, avoiding a request for every keystroke.
 export default function PropertyFilters({
   onSearch,
 }: {
@@ -30,6 +32,8 @@ export default function PropertyFilters({
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    // The API treats omitted query keys as no filter. Remove blank fields so
+    // the request does not need to distinguish empty strings from no values.
     const cleaned = Object.fromEntries(
       Object.entries(filters).filter(([_, v]) => v !== "")
     ) as PropertyFilters;
@@ -37,6 +41,7 @@ export default function PropertyFilters({
   }
 
   function handleClear() {
+    // Keep the controls and the parent query state in sync when clearing.
     setFilters({
       city: "",
       zipcode: "",
