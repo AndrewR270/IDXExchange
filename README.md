@@ -6,11 +6,11 @@ A property search application built for the 2026 Summer SDE Intern program at ID
 
 ## Tech Stack
 
-Data Storage: Docker, MySQL
+Data Storage: Docker 4.77.0, MySQL 8.4.10
 
-Backend: Node.js, Express.js
+Backend: Node.js 26.0.1, Express.js
 
-Frontend: Next.js, Tailwind CSS, React
+Frontend: Next.js 16.2.10, Tailwind CSS, React
 
 ## Description
 
