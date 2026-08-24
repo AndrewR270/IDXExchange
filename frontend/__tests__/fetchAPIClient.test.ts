@@ -1,7 +1,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { fetchAPIClient } from "../src/api/fetchAPIClient";
+import { fetchPropertyByFilter } from "../src/api/fetchAPIClient";
 
 describe("fetchProperties API client", () => {
   beforeEach(() => {
@@ -16,10 +16,10 @@ describe("fetchProperties API client", () => {
       })
     });
 
-    const data = await fetchAPIClient({ city: "San Diego" });
+    const data = await fetchPropertyByFilter({ city: "San Diego" });
 
     expect(global.fetch).toHaveBeenCalledWith(
-      "/api/properties?city=San+Diego"
+      "/api/listProperties?city=San+Diego"
     );
 
     expect(data.results).toEqual([{ L_ListingID: "123" }]);
@@ -31,9 +31,9 @@ describe("fetchProperties API client", () => {
       json: async () => ({ results: [], total: 0 })
     });
 
-    const data = await fetchAPIClient({});
+    const data = await fetchPropertyByFilter({});
 
-    expect(global.fetch).toHaveBeenCalledWith("/api/properties?");
+    expect(global.fetch).toHaveBeenCalledWith("/api/listProperties?");
     expect(data.results).toEqual([]);
     expect(data.total).toBe(0);
   });
@@ -42,7 +42,7 @@ describe("fetchProperties API client", () => {
     global.fetch.mockRejectedValue(new Error("Network error"));
 
     try {
-      await fetchAPIClient({ city: "San Diego" });
+      await fetchPropertyByFilter({ city: "San Diego" });
     } catch (err) {
       expect(err).toBeInstanceOf(Error);
     }

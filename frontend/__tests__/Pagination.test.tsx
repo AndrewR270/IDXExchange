@@ -4,6 +4,11 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import Pagination from "../src/components/Pagination";
 
+beforeAll(() => {
+  window.scrollTo = jest.fn();
+});
+
+
 describe("Pagination Component", () => {
   test("hidden when totalPages <= 1", () => {
     render(<Pagination currentPage={1} totalPages={1} onPageChange={() => {}} />);
@@ -46,6 +51,16 @@ describe("Pagination Component", () => {
     render(<Pagination currentPage={1} totalPages={10} onPageChange={onPageChange} />);
     fireEvent.click(screen.getByText("Next"));
 
+    expect(window.scrollTo).toHaveBeenCalledWith(0, 0);
+  });
+
+  test("clicking Previous reports the preceding page", () => {
+    const onPageChange = jest.fn();
+
+    render(<Pagination currentPage={3} totalPages={5} onPageChange={onPageChange} />);
+    fireEvent.click(screen.getByText("Previous"));
+
+    expect(onPageChange).toHaveBeenCalledWith(2);
     expect(window.scrollTo).toHaveBeenCalledWith(0, 0);
   });
 });

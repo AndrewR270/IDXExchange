@@ -4,14 +4,16 @@
 import { act } from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import ListingsClient from "../src/components/ListingsClient";
+import fetchAPIClient from "../src/api/fetchAPIClient";
+
 
 beforeAll(() => {
   window.scrollTo = jest.fn();
 });
 
 // Mock fetchAPIClient
-jest.mock("../lib/fetchAPIClient", () => ({
-  fetchAPIClient: jest.fn().mockResolvedValue({
+jest.mock("../src/api/fetchAPIClient", () => ({
+  fetchPropertyByFilter: jest.fn().mockResolvedValue({
     results: Array.from({ length: 20 }, (_, i) => ({
       L_ListingID: `${i}`,
       L_Photos: "",
@@ -26,6 +28,7 @@ jest.mock("../lib/fetchAPIClient", () => ({
     total: 57
   })
 }));
+
 
 describe("ListingsClient", () => {
   test("pagination appears below property grid", async () => {
