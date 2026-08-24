@@ -12,6 +12,8 @@ function validateId(id) {
     return id && typeof id === 'string' && /^[A-Za-z0-9]+$/.test(id) && id.length <= 20;
 }
 
+// The route order matters: Express would otherwise match the literal word
+// "openhouses" as a property ID in the generic /:id handler.
 /*
     GET request to /api/properties/:id/openhouses.
     Must come before the request to a property by id, or "openhouses" will be treated as the id.
@@ -20,6 +22,9 @@ router.get('/:id/openhouses', async (req, res) => {
     const id = req.params.id;
     if (!validateId(id)) { return res.status(400).json({ error: "Invalid listing ID." }); }
     try {
+        // Checking the property first makes a valid property with no events
+        // indistinguishable from an empty schedule, while avoiding unnecessary
+        // open-house work for an unknown listing.
         // Ensures the property exists before finding an openhouse for it. Returns an empty array otherwise.
         const [propertyRows] = await pool.query("SELECT 1 FROM rets_property WHERE L_ListingID = ? LIMIT 1", [id]);
         if (propertyRows.length === 0) { return res.json([]); }
@@ -49,6 +54,8 @@ router.get('/:id', async (req, res) => {
     const id = req.params.id;
     if (!validateId(id)) { return res.status(400).json({ error: "Invalid listing ID." }); }
     try {
+        // The ID is always bound as a query value; LIMIT 1 makes the response
+        // contract a single object even if the source table is not unique.
         // Searches for all properties with this id; returns the first match or 404.
         const sql = `
             SELECT *

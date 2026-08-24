@@ -9,6 +9,8 @@ interface OpenHousesProps {
   openHouses: OpenHouseRecord[] | null | undefined;
 }
 
+// Open-house remarks are stored inside the database's all_data JSON field,
+// while date and time values are exposed as regular response properties.
 export default function OpenHouses({ openHouses }: OpenHousesProps) {
   if (!openHouses || openHouses.length === 0) {
     return <p>No open houses scheduled</p>;
@@ -19,6 +21,8 @@ export default function OpenHouses({ openHouses }: OpenHousesProps) {
       {openHouses.map((oh, i) => {
         let remarks = "";
 
+        // all_data may be null or malformed in older records, so a bad JSON
+        // value should remove only the remarks instead of breaking the list.
         try {
           const parsed = JSON.parse(oh.all_data || "{}") as {
             OpenHouseRemarks?: string;

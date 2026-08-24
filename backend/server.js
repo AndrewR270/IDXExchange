@@ -10,6 +10,8 @@ const pool = require('./db'); // Import the MySQL connection pool from db.js
 
 // Creates & configures an Express application instance
 const app = express();
+// CORS is needed because the Next.js development server and Express API run
+// on different origins during local development.
 app.use(cors());
 app.use(express.json());
 
@@ -32,14 +34,18 @@ app.use((req, res, next) => {
 */  
 
 const propertyRouter = require('./routes/properties');
+// Collection routes handle filtering, pagination, and sorting.
 app.use('/api/properties', propertyRouter);
 
 const propertyIDRouter = require('./routes/propertyID');
+// Detail routes share the collection prefix and add /:id and /:id/openhouses.
 app.use('/api/properties', propertyIDRouter);
 
 // Defines an HTTP GET route in Express as /api/health
 app.get('/api/health', async (req, res) => {
   try {
+    // This inexpensive query verifies that the configured pool can reach the
+    // database, rather than merely proving that Express is running.
     // Returns promise of [rows, fields], destructured to rows
     const [rows] = await pool.query('SELECT 1 AS result');
     res.json({

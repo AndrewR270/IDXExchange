@@ -1,3 +1,4 @@
+// Helper function to get URL for Client-side route handlers
 function getApiBaseUrl() {
   if (typeof window !== "undefined") { return ""; }
   return process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
@@ -16,6 +17,7 @@ export async function fetchPropertyByID(id: string) {
   return await res.json();
 }
 
+// For OpenHouses on Property page
 export async function fetchOpenHouses(id: string) {
   const res = await fetch(`${getApiBaseUrl()}/api/getOpenHouses?id=${encodeURIComponent(id)}`);
   return await res.json();
