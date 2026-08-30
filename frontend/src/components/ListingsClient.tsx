@@ -51,6 +51,9 @@ export default function ListingsClient() {
   // Multiple sort rules are allowed and sent as sortBy[0], sortOrder[0], etc.
   const [sortFields, setSortFields] = useState<SortRule[]>([]);
 
+  // For server outages
+  const [error, setError] = useState<string | null>(null);
+
   // Called when the user submits the filter form.
   // Resets pagination and sorting, then fetches new results.
   function handleSearch(filters = {}) {
@@ -91,6 +94,7 @@ export default function ListingsClient() {
       setTotal(data.total);
     } catch {
       // On error, show an empty state instead of crashing the page.
+      setError("The backend service is currently unavailable. Please try again later.");
       setResults([]);
       setTotal(0);
     }
@@ -158,8 +162,15 @@ export default function ListingsClient() {
           />
         </div>
 
-        {/* Empty state when no results match the filters */}
-        {!loading && results.length === 0 && (
+        {/* Error state */}
+        {!loading && error && (
+          <p className="text-red-500 font-semibold">
+            {error}
+          </p>
+        )}
+
+        {/* Empty state */}
+        {!loading && !error && results.length === 0 && (
           <p className="text-foreground">
             No properties could be found. Try adjusting your search filters.
           </p>
