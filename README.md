@@ -1,7 +1,8 @@
 # IDXExchange
 A property search application built for the 2026 Summer SDE Intern program at IDXExchange.
 
-Deployment at: https://idx-exchange.vercel.app/
+Deployment! (May need a moment for backend to spin up): https://idx-exchange.vercel.app/
+Demo Video! https://youtu.be/NdvXv-mElyo
 
 ![IDXExchange Screenshot](./Screenshot.png)
 
