@@ -3,7 +3,7 @@ A property search application built for the 2026 Summer SDE Intern program at ID
 
 Deployment! (May need a moment for backend to spin up): https://idx-exchange.vercel.app/
 
-Demo Video! https://youtu.be/NdvXv-mElyo
+Demo Video! https://youtu.be/aQ8JDuP6HnI?si=MBS79yqmtO8rk8ww
 
 ![IDXExchange Screenshot](./Screenshot.png)
 
